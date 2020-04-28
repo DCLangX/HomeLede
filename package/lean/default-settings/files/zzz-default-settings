@@ -65,6 +65,14 @@ echo "DISTRIB_DESCRIPTION='HomeLede '" >> /etc/openwrt_release
 fi
 sed -i '/REDIRECT --to-ports 53/d' /etc/firewall.user
 
+uci set dhcp.@dnsmasq[0].interface='br-lan'
+uci set dhcp.@dnsmasq[0].port='54'
+uci set dhcp.@dnsmasq[0].noresolv=1
+uci set dhcp.@dnsmasq[0].server='127.0.0.1#5053'
+uci set dhcp.@dnsmasq[0].filter_aaaa='1'
+uci set dhcp.lan.dhcp_option='6,192.168.1.1'
+uci commit dhcp
+
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
 
